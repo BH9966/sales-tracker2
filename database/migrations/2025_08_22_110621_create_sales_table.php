@@ -13,12 +13,8 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('business_id')
-            ->constrained('business') 
-            ->onDelete('cascade');
-            $table->foreignId('user_id')
-                    ->constrained('users')
-                    ->onDelete('cascade');
+            $table->foreignId('business_id')->constrained('businesses')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->date('sale_date');
             $table->decimal('total_sales', 12, 2);
             $table->decimal('cost', 12, 2)->nullable();
@@ -27,6 +23,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.

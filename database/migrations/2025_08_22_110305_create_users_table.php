@@ -8,16 +8,17 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * 
-     * 
      */
-    
     public function up(): void
     {
-        Schema::create('business', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('type', ['butcher', 'genge', 'supermarket','car wash']);
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->enum('role', ['super_admin','admin','user'])->default('user');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('business');
+        Schema::dropIfExists('users');
     }
 };

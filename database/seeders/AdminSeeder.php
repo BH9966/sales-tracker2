@@ -17,12 +17,13 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        
         $password=Hash::make('ampark');
         $insert = new User();
         $insert->name='Amani';
         $insert->email='amani@gmail.com';
         $insert->password= $password;
+        $insert->role='super_admin';
         $insert->save();
     }
 }

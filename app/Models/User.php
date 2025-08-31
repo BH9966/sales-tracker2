@@ -17,14 +17,18 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property int $id
  * @property string $name
  * @property string $email
- * @property Carbon|null $email_verified_at
  * @property string $password
+ * @property string $role
+ * @property int|null $created_by
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
+ * @property User|null $user
+ * @property Collection|AssignBusiness[] $assign_businesses
  * @property Collection|Business[] $businesses
  * @property Collection|Sale[] $sales
+ * @property Collection|User[] $users
  *
  * @package App\Models
  */
@@ -33,7 +37,7 @@ class User extends Authenticatable
 	protected $table = 'users';
 
 	protected $casts = [
-		'email_verified_at' => 'datetime'
+		'created_by' => 'int'
 	];
 
 	protected $hidden = [
@@ -44,10 +48,21 @@ class User extends Authenticatable
 	protected $fillable = [
 		'name',
 		'email',
-		'email_verified_at',
 		'password',
+		'role',
+		'created_by',
 		'remember_token'
 	];
+
+	public function user()
+	{
+		return $this->belongsTo(User::class, 'created_by');
+	}
+
+	public function assign_businesses()
+	{
+		return $this->hasMany(AssignBusiness::class);
+	}
 
 	public function businesses()
 	{
@@ -57,5 +72,10 @@ class User extends Authenticatable
 	public function sales()
 	{
 		return $this->hasMany(Sale::class);
+	}
+
+	public function users()
+	{
+		return $this->hasMany(User::class, 'created_by');
 	}
 }

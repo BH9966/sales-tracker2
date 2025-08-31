@@ -12,3 +12,4 @@
     <link rel="stylesheet" href="{{asset('template/vendors/bootstrap-icons/bootstrap-icons.css')}}">
     <link rel="stylesheet" href="{{asset('template/css/app.css')}}">
     <link rel="shortcut icon" href="{{asset('template/images/favicon.svg')}}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">

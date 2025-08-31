@@ -7,7 +7,7 @@
       <div class="content-wrapper d-flex align-items-center auth register-bg-1 theme-one">
         <div class="row w-100">
           <div class="col-lg-4 mx-auto">
-            <h2 class="text-center mb-4">Trade Tracker Flow..</h2>
+            <h2 class="text-center mb-4">Trade Tracker...</h2>
             <div class="auto-form-wrapper">
                 
         <form wire:submit.prevent="submit">

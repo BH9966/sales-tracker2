@@ -1,5 +1,6 @@
 @extends('mazerpage.busness.busnesslayout')
 @section('content')
+
 <div class="page-heading">
     <div class="page-title">
         <div class="row">
@@ -28,20 +29,31 @@
                 <div class="card mb-0 border-0 shadow-none"> <!-- clean card -->
                   <div class="card-body">
                     
-                    <form action="{{route('busness_submit')}}" method="post">
+                    <form action="{{route('assignbussness_submit')}}" method="post">
                         @csrf
                       <div class="row g-2">
                            
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label small">Busness</label>
+                            <select class="form-select form-select-sm" name="busness">
+                              <option value="square">select busness...</option>
+                              @foreach ($busness as $busnes)
+                              <option value="{{$busnes->id}}">{{$busnes->name}}</option>
+                              @endforeach 
+                            </select>
+                          </div>
                       <div class="col-md-6 mb-2">
-                        <label class="form-label small">Name</label>
-                        <input type="text" class="form-control form-control-sm" name="busness_name" required>
+                        <label class="form-label small">users</label>
+                        <select class="form-select form-select-sm" name="user">
+                          <option value="square">select user...</option>
+                          @foreach ($users as $user)
+                          <option value="{{$user->id}}">{{$user->name}}</option>
+                          @endforeach 
+                        </select>
                       </div>
-                      <div class="col-12 mb-2">
-                        <label class="form-label small">Description</label>
-                        <textarea class="form-control form-control-sm" rows="2" name="description" required></textarea>
-                      </div>
+                    
                         <div class="col-12 d-flex justify-content-end">
-                          <button type="submit" class="btn btn-primary btn-sm">Add new Busness</button>
+                          <button type="submit" class="btn btn-primary btn-sm">Assign user</button>
                         </div>
     
                       </div>
@@ -66,7 +78,7 @@
       <div class="modal-content small"> <!-- small text -->
         
         <div class="modal-header">
-          <h6 class="modal-title" id="editModalLabel">Edit Busness</h6>
+          <h6 class="modal-title" id="editModalLabel">Edit User Busness</h6>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
   
@@ -78,19 +90,30 @@
                   <form method="post" id="editForm">
                     @csrf
                     @method('PUT') 
-                    <input type="hidden" id="editBusnessId" name="id">
                       <div class="row g-2">
                            
-                      <div class="col-md-6 mb-2">
-                        <label class="form-label small">Name</label>
-                        <input type="text" class="form-control form-control-sm" id="editname" name="name" >
-                      </div>
-                      <div class="col-12 mb-2">
-                        <label class="form-label small">Description</label>
-                        <textarea class="form-control form-control-sm" rows="2" id="editdesc" name="description"></textarea>
-                      </div>
+                        <div class="col-md-6 mb-2">
+                          <label class="form-label small">Busness</label>
+                          <select class="form-select form-select-sm" name="busness" id="editbusness">
+                            <option value="square">select busness...</option>
+                            @foreach ($busness as $busnes)
+                            <option value="{{$busnes->id}}">{{$busnes->name}}</option>
+                            @endforeach 
+                          </select>
+                        </div>
+                    <div class="col-md-6 mb-2">
+                      <label class="form-label small">users</label>
+                      <select class="form-select form-select-sm" name="user" id="edituser">
+                        <option value="square">select user...</option>
+                        @foreach ($users as $user)
+                        <option value="{{$user->id}}">{{$user->name}}</option>
+                        @endforeach 
+
+                      </select>
+                    </div>
+                  
                         <div class="col-12 d-flex justify-content-end">
-                          <button type="submit" class="btn btn-primary btn-sm">updated Busness</button>
+                          <button type="submit" class="btn btn-primary btn-sm">updated user Busness</button>
                         </div>
     
                       </div>
@@ -116,44 +139,37 @@
           <thead class="table-light">
             <tr>
               <th>N/D</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Created_by</th>
+              <th>Busness Name</th>
+              <th>User</th>
+              <th>Registered by</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            @foreach ( $data as $datas)
+            @foreach ( $datas as $data)
             <tr class="align-middle">
-                <td>   {{$datas->id}}</td>
-                <td> {{$datas->name}} </td>
-                <td>{{$datas->description}}</td>
-                <td> {{$datas->user->name}} </td>
+                <td>   {{$data->id}}</td>
+                <td> {{$data->business->name}} </td>
+                <td>{{$data->user->name}}</td>
+                <td> {{$data->user->name}} </td>
                 <td>
                     <div class="d-flex gap-1">
-                        <button class="btn btn-primary btn-sm editBtn"
-                          data-id="{{ $datas->id }}"
-                           data-name="{{ $datas->name }}"
-                           data-description="{{$datas->description}}"
-                            data-bs-toggle="modal" 
-                            data-bs-target="#editModal">
-                          Edit
-                        </button>
-                        <button class="btn btn-danger btn-sm mx-4" onclick="confirmDelete({{ $datas->id }})">
-                          Delete
-                        </button>
-                    
-                        <form id="delete-form-{{ $datas->id }}" action="{{ route('business.destroy', $datas->id) }}" method="POST" style="display: none;">
-                          @csrf
-                          @method('DELETE')
-                        </form>
+                      <button class="btn btn-primary btn-sm editBtn"
+                        data-id="{{ $data->id }}"
+                        data-name="{{$data->business->name}}"
+                        data-user="{{$data->user->name}}"
+                        data-register ="{{$data->user->name}}"
+                        data-bs-toggle="modal" 
+                        data-bs-target="#editModal">
+                      Edit
+                    </button>
+                        <button class="btn btn-danger btn-sm mx-5">Delete</button>
                       </div>
               </td>
             </tr>
                 @endforeach
           </tbody>
         </table>
-        {{$data->links()}}
       </div>
     </div>
   </section>
@@ -161,8 +177,9 @@
     
 </div>
 @endsection
-@section('sidebar')
 
+@section('sidebar')
+      
 <div id="sidebar" class="active">
     <div class="sidebar-wrapper active">
         <div class="sidebar-header">
@@ -277,4 +294,5 @@
         <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
     </div>
 </div>
+    
 @endsection
