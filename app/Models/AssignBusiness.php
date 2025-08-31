@@ -10,16 +10,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Sale
+ * Class AssignBusiness
  * 
  * @property int $id
  * @property int $business_id
  * @property int $user_id
- * @property Carbon $sale_date
- * @property float $total_sales
- * @property float|null $cost
- * @property string|null $cost_description
- * @property float|null $cash_mkononi_jana
+ * @property int|null $registered_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
@@ -28,27 +24,20 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class Sale extends Model
+class AssignBusiness extends Model
 {
-	protected $table = 'sales';
+	protected $table = 'assign_business';
 
 	protected $casts = [
 		'business_id' => 'int',
 		'user_id' => 'int',
-		'sale_date' => 'datetime',
-		'total_sales' => 'float',
-		'cost' => 'float',
-		'cash_mkononi_jana' => 'float'
+		'registered_by' => 'int'
 	];
 
 	protected $fillable = [
 		'business_id',
 		'user_id',
-		'sale_date',
-		'total_sales',
-		'cost',
-		'cost_description',
-		'cash_mkononi_jana'
+		'registered_by'
 	];
 
 	public function business()

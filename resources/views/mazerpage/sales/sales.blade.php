@@ -14,7 +14,9 @@
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formModal">
                         + Add New
                       </button>
+                      
                 </nav>
+                
                 <!-- Modal -->
 <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -28,53 +30,53 @@
               <div class="col-12">
                 <div class="card mb-0 border-0 shadow-none"> <!-- clean card -->
                   <div class="card-body">
-                    <form class="form">
+                    <form action="{{route('sale_submit')}}"  method="post" class="form">
+                      @csrf
                       <div class="row g-2"> <!-- tighter spacing -->
-    
                         <div class="col-md-6 mb-2">
                           <label class="form-label small">Muuzaji</label>
-                          <select class="form-select form-select-sm">
-                            <option value="square">Square</option>
-                            <option value="rectangle">Rectangle</option>
-                            <option value="rombo">Rombo</option>
-                            <option value="romboid">Romboid</option>
+                          <select class="form-select form-select-sm" name="muuzaji" required>
+                            <option>Chagua Muuzaji....</option>
+                            @foreach ($user as $users )
+                            <option value="{{$users->id}}">{{$users->name}}</option>
+                            @endforeach
+                        
                           </select>
                         </div>
     
                         <div class="col-md-6 mb-2">
                           <label class="form-label small">Aina ya Biashara</label>
-                          <select class="form-select form-select-sm">
-                            <option value="square">Square</option>
-                            <option value="rectangle">Rectangle</option>
-                            <option value="rombo">Rombo</option>
+                          <select class="form-select form-select-sm" name="biashara" required>
+                            <option>Select busness....</option>
+                           @foreach ($busness as $kazi )
+                           <option value="{{$kazi->id}}">{{$kazi->name}}</option>
+                           @endforeach
                           </select>
                         </div>
     
                         <div class="col-md-6 mb-2">
                           <label class="form-label small">Tarehe ya mauzo</label>
-                          <input type="date" class="form-control form-control-sm">
+                          <input type="date" class="form-control form-control-sm" name="tarehe_mauzo" required>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                          <label class="form-label small">Mauzo</label>
+                          <input type="number" class="form-control form-control-sm" name="mauzo" step="0.1" min="0" required>
                         </div>
     
                         <div class="col-md-6 mb-2">
                           <label class="form-label small">Garama</label>
-                          <input type="number" class="form-control form-control-sm" step="0.1" min="0">
+                          <input type="number" class="form-control form-control-sm" name="garama" step="0.1" min="0" required>
                         </div>
     
                         <div class="col-12 mb-2">
                           <label class="form-label small">Maelezo ya Garama</label>
-                          <textarea class="form-control form-control-sm" rows="2"></textarea>
+                          <textarea class="form-control form-control-sm" rows="2" name="maelezo" required></textarea>
                         </div>
     
                         <div class="col-md-6 mb-2">
-                          <label class="form-label small">Company</label>
-                          <input type="text" class="form-control form-control-sm">
-                        </div>
-    
-                        <div class="col-md-6 mb-2">
-                          <label class="form-label small">Email</label>
-                          <input type="email" class="form-control form-control-sm">
-                        </div>
-    
+                          <label class="form-label small">Cash Jana</label>
+                          <input type="number" class="form-control form-control-sm" step="0.1" min="0"  name="cash_jana" required>
+                        </div>  
                         <div class="col-12 d-flex justify-content-end">
                           <button type="submit" class="btn btn-primary btn-sm">Add Sales</button>
                         </div>
@@ -110,51 +112,53 @@
             <div class="col-12">
               <div class="card mb-0 border-0 shadow-none"> <!-- clean card -->
                 <div class="card-body">
-                  <form class="form">
+                  <form method="post" id="editForm">
+                    @csrf
+                    @method('PUT') 
+                    <input type="hidden" id="editsalesID" name="id">
                     <div class="row g-2"> <!-- tighter spacing -->
   
                       <div class="col-md-6 mb-2">
                         <label class="form-label small">Muuzaji</label>
-                        <select class="form-select form-select-sm">
-                          <option value="square">Square</option>
-                          <option value="rectangle">Rectangle</option>
-                          <option value="rombo">Rombo</option>
-                          <option value="romboid">Romboid</option>
+                        <select class="form-select form-select-sm" name="muuzaji" id="editmuuzaji">
+                          <option>Chagua Muuzaji....</option>
+                          @foreach ($user as $users )
+                          <option value="{{$users->id}}">{{$users->name}}</option>
+                          @endforeach
                         </select>
                       </div>
   
                       <div class="col-md-6 mb-2">
                         <label class="form-label small">Aina ya Biashara</label>
-                        <select class="form-select form-select-sm">
-                          <option value="square">Square</option>
-                          <option value="rectangle">Rectangle</option>
-                          <option value="rombo">Rombo</option>
-                        </select>
+                        <select class="form-select form-select-sm" name="biashara" id="editbiashara">
+                          <option>Select busness....</option>
+                          @foreach ($busness as $kazi )
+                          <option value="{{$kazi->id}}">{{$kazi->name}}</option>
+                          @endforeach
+                        </select>          
                       </div>
   
                       <div class="col-md-6 mb-2">
                         <label class="form-label small">Tarehe ya mauzo</label>
-                        <input type="date" class="form-control form-control-sm">
+                        <input type="date" class="form-control form-control-sm" name="tarehe_mauzo" id="editdate" >
                       </div>
-  
+                      <div class="col-md-6 mb-2">
+                        <label class="form-label small">Mauzo</label>
+                        <input type="number" class="form-control form-control-sm" name="mauzo" id="editmauzo" step="0.1" min="0">
+                      </div>
                       <div class="col-md-6 mb-2">
                         <label class="form-label small">Garama</label>
-                        <input type="number" class="form-control form-control-sm" step="0.1" min="0">
+                        <input type="number" class="form-control form-control-sm" name="garama" id="editgarama" step="0.1" min="0">
                       </div>
   
                       <div class="col-12 mb-2">
                         <label class="form-label small">Maelezo ya Garama</label>
-                        <textarea class="form-control form-control-sm" rows="2"></textarea>
+                        <textarea class="form-control form-control-sm" name="maelezo" id="editmaelezo" rows="2"></textarea>
                       </div>
   
                       <div class="col-md-6 mb-2">
-                        <label class="form-label small">Company</label>
-                        <input type="text" class="form-control form-control-sm">
-                      </div>
-  
-                      <div class="col-md-6 mb-2">
-                        <label class="form-label small">Email</label>
-                        <input type="email" class="form-control form-control-sm">
+                        <label class="form-label small">Cash Jana</label>
+                        <input type="number" step="0.1" min="0" name="cash_jana" id="editcash" class="form-control form-control-sm">
                       </div>
   
                       <div class="col-12 d-flex justify-content-end">
@@ -176,10 +180,13 @@
   <!-- Sales List -->
   <section class="section small">
     <div class="card">
-      <div class="card-header">
+      <div class="card-header d-flex justify-content-between">
         <h6 class="mb-0">Sales List</h6>
+        <div><a class="btn btn-outline-secondary" href="{{route('salesinvoice')}}"><i class="bi bi-file-earmark-pdf mx-1"></i>Download PDF</a> 
+          <button type="button" class="btn btn-outline-secondary mx-3 "><i class="bi bi-download mx-2" width="32" height="32"></i>Download Excel</button></div>
       </div>
       <div class="card-body">
+      
         <table class="table table-striped table-sm align-middle small" id="table1">
           <thead class="table-light">
             <tr>
@@ -203,17 +210,28 @@
               <td>{{$values->user->name}}</td>
               <td>{{$values->business->name}}</td>
               <td>{{ \Carbon\Carbon::parse($values->sale_date)->format('Y-m-d') }}</td>
-              <td>{{$values->total_sales}}</td>
-              <td>{{$values->cost}}</td>
+              <td>{{number_format($values->total_sales, 2, '.',',')}}</td>
+              <td>{{  number_format($values->cost, '2','.',',')  }}</td>
               <td>{{$values->cost_description}}</td>
-              <td>{{ $values->total_sales - $values->cost }}</td>
-              <td>{{$values->cash_mkononi_jana}}</td>
-              <td>{{ ($values->total_sales - $values->cost) + $values->cash_mkononi_jana }}</td>
+              <td>{{ number_format( $values->total_sales - $values->cost , '2','.',',')}}</td>
+              <td>{{ number_format($values->cash_mkononi_jana,'2','.',',')  }}</td>
+              <td>{{ number_format( ($values->total_sales - $values->cost) + $values->cash_mkononi_jana ,'2','.',',')}}</td>
               <td>
                 <div class="d-flex gap-1">
-                  <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">
-                    Edit
-                  </button>
+                  <button class="btn btn-primary btn-sm editBtn"
+                  data-id="{{ $values->id }}"
+                  data-name="{{$values->user->id}}"
+                  data-busness="{{$values->business->id}}"
+                  data-date="{{ \Carbon\Carbon::parse($values->sale_date)->format('Y-m-d') }}"
+                  data-sale="{{$values->total_sales}}"
+                  data-cost="{{$values->cost}}"
+                  data-descript ="{{$values->cost_description}}"
+                  data-cash="{{$values->cash_mkononi_jana}}"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#editModal">
+                  Edit
+                </button>
+                
                   <button class="btn btn-danger btn-sm">Delete</button>
                 </div>
               </td>
@@ -221,6 +239,7 @@
             @endforeach
           </tbody>
         </table>
+        {{$value->links()}}
       </div>
     </div>
   </section>
@@ -280,8 +299,8 @@
                             <a href="{{route('busness')}}">Busness list</a>
                         </li>
                         <li class="submenu-item ">
-                            <a href="#">Add Busness</a>
-                        </li>
+                          <a href="{{route('usersbusness')}}"> Users Busness </a>
+                      </li>
 
                     </ul>
                 </li>
@@ -297,7 +316,7 @@
                     <ul class="submenu ">
                         
                         <li class="submenu-item ">
-                            <a href="{{route('userlist')}}">Users</a>
+                            <a href="{{route('users')}}">Users</a>
                         </li>
                     </ul>
                 </li>

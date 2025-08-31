@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AssignBusiness;
 use App\Models\Business;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,11 +14,9 @@ class BusnessController extends Controller
      */
     public function index()
     {
-        //
-        // $types = Business::select('type')->distinct()->get();
-        $users=User::all();
-        $data=User::with('businesses')->get();
-        return view('mazerpage.busness.busness',compact('data','users'));
+
+        $data=Business::with('user')->paginate(10);
+        return view('mazerpage.busness.busness',compact('data'));
     }
 
     /**
@@ -36,37 +35,71 @@ class BusnessController extends Controller
     {
        
         $request->validate([
-            'name'    => 'required|string|max:255',
-            'busness' => 'required|string',
-            'user'    => 'required|exists:users,id',
+            'busness_name'    => 'required|string|max:255',
+            'description' => 'required|string',
+            
         ]);
     
-        $busness = $request->busness;
-        $user    = $request->user;
-        $exists = Business::where('type', $busness)
-                          ->where('created_by', $user)
+        $busness = $request->busness_name;
+        $descript    = $request->description;
+        $exists = Business::where('name', $busness)
                           ->exists();
     
         if ($exists) {
-            return redirect()->back()->with('error', 'This business already taken by this user');
+            return redirect()->back()->with('error', 'This business already registered');
         }
-    
-        // insert new record
+        
         Business::create([
-            'name'    => $request->name,
-            'type'    => $busness,
-            'created_by' => $user
+            'name'    =>$busness ,
+            'description'  => $descript,
+            'created_by' => Auth::check() ? Auth::id() : null
         ]);
     
-        return redirect()->back()->with('success', 'User added successfully.');
+        return redirect()->back()->with('success', 'Busness added successfully.');
+    }
+
+
+    public function usersbusness()
+    {
+        //
+        $busness=Business::all();
+        $users= User::all();
+        $datas=AssignBusiness::with('business','user')->get();
+        return view('mazerpage.busness.usersbusness', compact('datas','users','busness'));
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function assign(Request $request)
     {
         //
+        $request->validate([
+            'busness'    => 'required|string',
+            'user' => 'required|string',
+            
+        ]);
+    
+        $busness = $request->busness;
+        $user    = $request->user;
+        $exists = AssignBusiness::where('business_id', $busness)
+                            ->where('user_id',$user)
+                          ->exists();
+    
+        if ($exists) {
+            return redirect()->back()->with('error', 'This user already assign to this bussnes');
+        }
+    
+        // insert new record
+        AssignBusiness::create([
+            'business_id'    =>$busness ,
+            'user_id'  => $user,
+            'registered_by' => Auth::user()->id
+        ]);
+    
+        return redirect()->back()->with('success', 'User Assigned successfully..');
+
     }
 
     /**
@@ -74,40 +107,60 @@ class BusnessController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        $user = User::with('businesses')->findOrFail($id);
+        // //
+        // // $user = User::with('businesses')->findOrFail($id);
 
-        return response()->json([
-            'id' => $user->id,
-            'business_name' => $user->businesses->first()->name ?? '',
-            'type' => $user->businesses->type,
-            'name' => $user->name,
+        // // return response()->json([
+        // //     'id' => $user->id,
+        // //     'business_name' => $user->businesses->first()->name ?? '',
+        // //     'type' => $user->businesses->type,
+        // //     'name' => $user->name,
             
+        
+        // ]);
+    }
+                   
+    
+    public function updateUserBusness(Request $request, string $id){
+
+
+        $userBusness = Business::findOrFail($id);
+
+        $request->validate([
+            'busness'    => 'required|string',
+            'user' => 'required|string',
             
         ]);
+
     }
-                           
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $busness = Business::findOrFail($id);
+
         $request->validate([
-            'id' => 'required|integer',
             'name' => 'required|string',
-            'business' => 'required|string',
-            'user'=>'required'
+            'description' => 'required|string',
         ]);
-    
-        $busness = Business::findOrFail($request->id);
-        $busness->name = $request->name;
-        $busness->type = $request->business;
-        $busness->created_by = $request->user;
+        
+        $exists = Business::where('name', $request->name)
+                          ->where('id', '!=', $id) 
+                          ->exists();
+        
+        if ($exists) {
+            return redirect()->back()->with('error', 'This business is already registered');
+        }
+        
+        $busness->name        = $request->name;
+        $busness->description = $request->description;
+        $busness->created_by  = Auth::check() ? Auth::id() : null;
         $busness->save();
-    
-        return redirect()->back()->with('success', 'User Business updated successfully!');
+        
+        return redirect()->back()->with('success', 'Business updated successfully!');
+        
 
     }
 
@@ -117,5 +170,9 @@ class BusnessController extends Controller
     public function destroy(string $id)
     {
         //
+        $business = Business::findOrFail($id);
+        $business->delete();
+    
+        return redirect()->back()->with('success', 'Business deleted successfully!');
     }
 }

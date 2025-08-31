@@ -114,7 +114,7 @@
             <div class="d-flex justify-content-between">
                 <div class="logo">
                     <a href="{{route('dashboard')}}"><img src="{{asset('template/images/logo/logo.png')}}" width="130px" height="900px" alt="Logo"><br>
-                        <h5>{{Auth::guard('users')->user()->email}}</h5>
+                        <h6>{{Auth::guard('users')->user()->email}}</h6>
                     </a>
                 </div>
                 <div class="toggler">
@@ -158,7 +158,7 @@
                             <a href="{{route('busness')}}">Busness list</a>
                         </li>
                         <li class="submenu-item ">
-                            <a href="#">Add Busness</a>
+                            <a href="{{route('usersbusness')}}"> Users Busness </a>
                         </li>
 
                     </ul>
@@ -175,7 +175,7 @@
                     <ul class="submenu ">
                         
                         <li class="submenu-item ">
-                            <a href="{{route('userlist')}}">Users</a>
+                            <a href="{{route('users')}}">Users</a>
                         </li>
                     </ul>
                 </li>

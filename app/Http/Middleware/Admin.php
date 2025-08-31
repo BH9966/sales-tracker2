@@ -16,9 +16,16 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::guard('users')->check()){
-            return redirect('login.loginpage');
-        }
-        return $next($request);
+       
+    if (!Auth::guard('users')->check()) {
+        return redirect()->route('login');
+    }
+
+    $user = Auth::user();
+    if (!in_array($user->role, ['admin', 'super_admin'])) {
+        abort(403, 'Access denied: Admin only.');
+    }
+
+    return $next($request);
     }
 }
