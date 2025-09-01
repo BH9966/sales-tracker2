@@ -64,9 +64,19 @@ class BusnessController extends Controller
         //
         $busness=Business::all();
         $users= User::all();
-        $datas=AssignBusiness::with('business','user')->get();
+        $datas=AssignBusiness::with('business','user')->paginate(10);
         return view('mazerpage.busness.usersbusness', compact('datas','users','busness'));
 
+    }
+    // delete usersbusness
+
+    public function usersbusnessDestroy(string $id)
+    {
+        //
+        $assign = AssignBusiness::findOrFail($id);
+        $assign->delete();
+    
+        return redirect()->back()->with('success', 'UsersBusness deleted successfully!');
     }
 
     /**

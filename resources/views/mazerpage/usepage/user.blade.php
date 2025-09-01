@@ -321,9 +321,9 @@
         </thead>
         <tbody>
          
-          @foreach($users as $user)
+          @foreach($users as $key=>$user)
           <tr class="align-middle">
-          <td>{{ $user->id }}</td>
+          <td>{{  $users->firstItem() + $key }}</td>
           <td>{{ $user->name }}</td>
           <td>{{ $user->email }}</td>
           <td>{{ ucfirst($user->role) }}</td>
@@ -340,7 +340,14 @@
                       data-bs-target="#editModal">
                     Edit
                   </button>
-                  <button class="btn btn-danger btn-sm">Delete</button>
+                  <button class="btn btn-danger btn-sm mx-4" onclick="confirmDelete({{ $user->id }})">
+                    Delete
+                  </button>
+              
+                  <form id="delete-users-{{ $user->id }}" action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: none;">
+                    @csrf
+                    @method('DELETE')
+                  </form>
                 </div>
         </td>
       </tr>

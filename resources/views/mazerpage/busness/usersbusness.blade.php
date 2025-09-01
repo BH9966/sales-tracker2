@@ -146,12 +146,12 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ( $datas as $data)
+            @foreach ( $datas as $keys=>$data)
             <tr class="align-middle">
-                <td>   {{$data->id}}</td>
+                <td>   {{$datas->firstItem() + $keys}}</td>
                 <td> {{$data->business->name}} </td>
                 <td>{{$data->user->name}}</td>
-                <td> {{$data->user->name}} </td>
+                <td> {{$data->registered_by}} </td>
                 <td>
                     <div class="d-flex gap-1">
                       <button class="btn btn-primary btn-sm editBtn"
@@ -163,7 +163,14 @@
                         data-bs-target="#editModal">
                       Edit
                     </button>
-                        <button class="btn btn-danger btn-sm mx-5">Delete</button>
+                    <button class="btn btn-danger btn-sm mx-4" onclick="confirmDelete({{ $data->id }})">
+                      Delete
+                    </button>
+                
+                    <form id="delete-userbusness-{{ $data->id }}" action="{{ route('deleteusersbusness', $data->id) }}" method="POST" style="display: none;">
+                      @csrf
+                      @method('DELETE')
+                    </form>
                       </div>
               </td>
             </tr>

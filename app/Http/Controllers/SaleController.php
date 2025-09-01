@@ -187,5 +187,9 @@ class SaleController extends Controller
     public function destroy(string $id)
     {
         //
+        $sales = Sale::findOrFail($id);
+        $sales->delete();
+    
+        return redirect()->back()->with('success', 'Sale deleted successfully!');
     }
 }

@@ -65,12 +65,12 @@
     
                         <div class="col-md-6 mb-2">
                           <label class="form-label small">Garama</label>
-                          <input type="number" class="form-control form-control-sm" name="garama" step="0.1" min="0" required>
+                          <input type="number" class="form-control form-control-sm" name="garama" step="0.1" min="0" >
                         </div>
     
                         <div class="col-12 mb-2">
                           <label class="form-label small">Maelezo ya Garama</label>
-                          <textarea class="form-control form-control-sm" rows="2" name="maelezo" required></textarea>
+                          <textarea class="form-control form-control-sm" rows="2" name="maelezo" ></textarea>
                         </div>
     
                         <div class="col-md-6 mb-2">
@@ -183,7 +183,7 @@
       <div class="card-header d-flex justify-content-between">
         <h6 class="mb-0">Sales List</h6>
         <div><a class="btn btn-outline-secondary" href="{{route('salesinvoice')}}"><i class="bi bi-file-earmark-pdf mx-1"></i>Download PDF</a> 
-          <button type="button" class="btn btn-outline-secondary mx-3 "><i class="bi bi-download mx-2" width="32" height="32"></i>Download Excel</button></div>
+          <button type="button" class="btn btn-outline-secondary mx-3 "><i class="bi bi-download mx-2" width="32" height="32"></i>Export Excel</button></div>
       </div>
       <div class="card-body">
       
@@ -204,9 +204,9 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($value as $values)
+            @foreach ($value as $key=> $values)
             <tr>
-              <td>{{$values->id}}</td>
+              <td>{{$value->firstItem() + $key}}</td>
               <td>{{$values->user->name}}</td>
               <td>{{$values->business->name}}</td>
               <td>{{ \Carbon\Carbon::parse($values->sale_date)->format('Y-m-d') }}</td>
@@ -232,7 +232,14 @@
                   Edit
                 </button>
                 
-                  <button class="btn btn-danger btn-sm">Delete</button>
+                <button class="btn btn-danger btn-sm mx-4" onclick="confirmDelete({{ $values->id }})">
+                  Delete
+                </button>
+            
+                <form id="delete-form-{{ $values->id }}" action="{{ route('sales.destroy', $values->id) }}" method="POST" style="display: none;">
+                  @csrf
+                  @method('DELETE')
+                </form>
                 </div>
               </td>
             </tr>
