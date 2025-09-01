@@ -123,9 +123,9 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ( $data as $datas)
+            @foreach ( $data as $key=>$datas)
             <tr class="align-middle">
-                <td>   {{$datas->id}}</td>
+                <td>   {{$data->firstItem() + $key}}</td>
                 <td> {{$datas->name}} </td>
                 <td>{{$datas->description}}</td>
                 <td> {{$datas->user->name}} </td>
