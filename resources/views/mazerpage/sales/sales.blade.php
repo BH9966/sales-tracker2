@@ -183,7 +183,7 @@
       <div class="card-header d-flex justify-content-between">
         <h6 class="mb-0">Sales List</h6>
         <div><a class="btn btn-outline-secondary" href="{{route('salesinvoice')}}"><i class="bi bi-file-earmark-pdf mx-1"></i>Download PDF</a> 
-          <button type="button" class="btn btn-outline-secondary mx-3 "><i class="bi bi-download mx-2" width="32" height="32"></i>Export Excel</button></div>
+       <a class="btn btn-outline-secondary mx-3 " href="{{ route('sales.export') }}"><i class="bi bi-download mx-2" width="32" height="32"></i>Export Excel</a> </div>
       </div>
       <div class="card-body">
       
