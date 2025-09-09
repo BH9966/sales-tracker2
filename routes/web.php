@@ -17,6 +17,8 @@ route::middleware(['auth:users'])->group(function(){
     route::delete('/sales/{id}',[SaleController::class , 'destroy'])->name('sales.destroy');
     route::put('sales/{id}',[SaleController::class , 'update'])->name('updatesale');
     route::get('salesinvoice',[SaleController::class , 'invoice'])->name('salesinvoice');
+    Route::get('/sales/export', [SaleController::class, 'exportSalesExcel'])->name('sales.export');
+
     route::post('addsale',[SaleController::class , 'store'])->name('sale_submit');
     route::get('report',[ReportController::class ,'index'])->name('report');
     route::get('users',[UserController::class , 'index'])->name('users');
@@ -34,3 +36,4 @@ route::middleware(['auth:users'])->group(function(){
     route::post('edit',[BusnessController::class , 'edit'])->name('busness_update');
 });
 
+////users route .....

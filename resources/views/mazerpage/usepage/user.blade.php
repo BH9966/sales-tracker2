@@ -276,10 +276,12 @@
                       <div class="col-md-6 mb-2">
                         <label class="form-label small">Role</label>
                         <select class="form-select form-select-sm" name="role" id="editRole" required>
-                          <option>Select role....</option>
+                          <option value="" disabled selected>Select role...</option>
                           <option value="admin">Admin</option>
                           <option value="super_admin">Super Admin</option>
-                          <option value="user">User</option>
+                          <option value="butcher_user">Butcher User</option>
+                          <option value="genge_user">Genge User</option>
+                          <option value="carwash_user">Car Wash User</option>
                         </select>
                       </div>
     

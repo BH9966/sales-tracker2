@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sale;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\SalesExport;
+
+use Maatwebsite\Excel\Facades\Excel;
 class SaleController extends Controller
 {
     /**
+     * 
+     * 
      * Display a listing of the resource.
      */
     public function index()
@@ -53,7 +58,7 @@ class SaleController extends Controller
     $userId     = $request->muuzaji;
     
     
-    $isRegistered = DB::table('assign_business') // or register_businesses depending on your schema
+    $isRegistered = DB::table('assign_business') 
         ->where('user_id', $userId)
         ->where('business_id', $businessId)
         ->exists();
@@ -76,12 +81,14 @@ class SaleController extends Controller
         ->where('user_id', $userId)
         ->orderBy('sale_date', 'desc')
         ->first();
-    
-    if ($lastSale && $lastSale->cash_mkononi_jana != $request->cash_jana) {
-        return redirect()->back()->with('error', "Cash ya jana haifanani! Iliyoandikwa jana: {$lastSale->cash_mkononi_jana}, uliyoweka sasa: {$request->cash_jana}");
-    }
-    
-  
+        $cashLeoLastSale = ($lastSale->total_sales - $lastSale->cost) + $lastSale->cash_mkononi_jana;
+
+        if ($lastSale && $request->cash_jana != $cashLeoLastSale) {
+            return redirect()->back()->with('error', "Cash ya jana haifanani! Iliyoandikwa jana: {$lastSale->cash_mkononi_jana}, Cash Leo ya mwisho: {$cashLeoLastSale}, uliyoweka sasa: {$request->cash_jana}");
+        }
+    // if ( $lastSale->cash_mkononi_jana != $request->cash_jana) {
+    //     return redirect()->back()->with('error', "Cash ya jana haifanani! Iliyoandikwa jana: {$lastSale->cash_mkononi_jana}, uliyoweka sasa: {$request->cash_jana}");
+    // }
     Sale::create([
         'business_id'       => $businessId,
         'user_id'           => $userId,
@@ -163,6 +170,7 @@ class SaleController extends Controller
             ->first();
     
         if ($lastSale) {
+
             // if($request->biashara == 'Genge' || $request->biashara == 'Car wash' || $request->biashara == 'Supermarket'){
     
                 if ($lastSale->cash_mkononi_jana != $request->cash_jana) {
@@ -181,8 +189,19 @@ class SaleController extends Controller
                 $sale->save();
     }
 
+
+// Export excel file.....
+
+
+    public function exportSalesExcel()
+{
+     
+    return Excel::download(new SalesExport, 'sales_report.xlsx');
+}
     /**
      * Remove the specified resource from storage.
+     * 
+     * 
      */
     public function destroy(string $id)
     {
