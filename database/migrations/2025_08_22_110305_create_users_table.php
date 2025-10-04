@@ -16,14 +16,17 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role', ['super_admin','admin','user'])->default('user');
+            $table->enum('role', ['super_admin','admin','butcher_user','genge_user','carwash_user']);
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
         });
+        
+        
     }
-
+ 
     /**
+     * 
      * Reverse the migrations.
      */
     public function down(): void

@@ -4,6 +4,7 @@
    @include('login.login2.style')
   </head>
   <body>
+        
     {{$slot}}
     <!-- container-scroller -->
     

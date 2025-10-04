@@ -6,6 +6,7 @@ use App\Mail\MissingSalesAlert; // Ensure this import is correct and the class e
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Sale;
+use App\Models\AssignBusiness;
 use Illuminate\Console\Command;
 
 class NotifyMissingSales extends Command
@@ -18,28 +19,25 @@ class NotifyMissingSales extends Command
         $today = Carbon::today();
 
         // Get all users who are registered in businesses
-        $users = User::whereHas('assign_businesses')->get(); // assumes User has relation businesses()
-
         $missingSales = [];
 
-        foreach ($users as $user) {
-            foreach ($user->businesses as $business) {
-                $saleToday = Sale::where('user_id', $user->id)
-                    ->where('business_id', $business->id)
-                    ->whereDate('sale_date', $today)
-                    ->exists();
+        $assignments = AssignBusiness::with(['user', 'business'])->get();
 
-                if (!$saleToday) {
-                    $missingSales[] = [
-                        'user' => $user,
-                        'business' => $business,
-                    ];
-                }
+        foreach ($assignments as $assign) {
+            $saleToday = Sale::where('user_id', $assign->user_id)
+                ->where('business_id', $assign->business_id)
+                ->whereDate('sale_date', $today)
+                ->exists();
+    
+            if (!$saleToday) {
+                $missingSales[] = [
+                    'user' => $assign->user,
+                    'business' => $assign->business,
+                ];
             }
         }
-
         if (!empty($missingSales)) {
-            $adminEmail = 'hamisihussein999@gmail.com'; // replace with your admin email
+            $adminEmail = 'hamisihussein999@gmail.com'; 
             Mail::to($adminEmail)->send(new MissingSalesAlert($missingSales));
         }
 

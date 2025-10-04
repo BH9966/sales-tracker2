@@ -96,8 +96,8 @@
         <thead>
           <tr>
             <th>N/D</th>
-            <th class="center">Biashara</th>
             <th class="center">Muuzaji</th>
+            <th class="center">Biashara</th>
             <th class="center">Tarehe</th>
             <th class="center">Mauzo</th>
             <th class="center">Garama</th>

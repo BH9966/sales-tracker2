@@ -22,7 +22,7 @@ class SaleController extends Controller
         
         $user=User::all();
         $busness =Business::all();
-        $value= Sale::with('business','user')->paginate(10);
+        $value= Sale::with('business','user')->paginate(5);
         return view('mazerpage.sales.sales',compact('value','user','busness'));
     }
 
@@ -81,10 +81,19 @@ class SaleController extends Controller
         ->where('user_id', $userId)
         ->orderBy('sale_date', 'desc')
         ->first();
-        $cashLeoLastSale = ($lastSale->total_sales - $lastSale->cost) + $lastSale->cash_mkononi_jana;
+        
+        if ($lastSale) {
+            
+            $cashLeoLastSale = ($lastSale->total_sales - $lastSale->cost) + $lastSale->cash_mkononi_jana;
+        } else {
+        
+            $cashLeoLastSale = 0; 
+        }
+       
+        // $cashLeoLastSale = ($lastSale->total_sales - $lastSale->cost) + $lastSale->cash_mkononi_jana;
 
         if ($lastSale && $request->cash_jana != $cashLeoLastSale) {
-            return redirect()->back()->with('error', "Cash ya jana haifanani! Iliyoandikwa jana: {$lastSale->cash_mkononi_jana}, Cash Leo ya mwisho: {$cashLeoLastSale}, uliyoweka sasa: {$request->cash_jana}");
+            return redirect()->back()->with('error', "Cash ya jana haifanani! Iliyoandikwa jana: {$lastSale->cash_mkononi_jana}, Cash ya Leo ya mwisho: {$cashLeoLastSale}, uliyoweka sasa: {$request->cash_jana}");
         }
     // if ( $lastSale->cash_mkononi_jana != $request->cash_jana) {
     //     return redirect()->back()->with('error', "Cash ya jana haifanani! Iliyoandikwa jana: {$lastSale->cash_mkononi_jana}, uliyoweka sasa: {$request->cash_jana}");
