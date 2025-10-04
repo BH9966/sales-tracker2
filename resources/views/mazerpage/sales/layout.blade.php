@@ -41,7 +41,7 @@
                     icon: 'error',
                     title: "{{ session('error') }}",
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 15000
                 });
             @endif
             @if(session('errors'))

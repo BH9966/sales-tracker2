@@ -11,21 +11,27 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('assign_business', function (Blueprint $table) {
+        Schema::create('activity_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('business_id')->constrained('businesses')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('registered_by')->nullable()->constrained('users')->onDelete('set null'); 
-            
+            $table->string('action');                  
+            $table->text('ip_address')->nullable();
+            $table->json('old_data')->nullable();          
+            $table->json('new_data')->nullable();  
+            $table->unsignedBigInteger('record_id')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
 
     /**
+     * 
      * Reverse the migrations.
+     * 
      */
     public function down(): void
     {
-        Schema::dropIfExists('assign_business');
+        
+        Schema::dropIfExists('activity_logs');
     }
 };

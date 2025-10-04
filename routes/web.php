@@ -1,16 +1,18 @@
 <?php
-
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BusnessController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LogController;
+use App\Http\Controllers\UpdateController;
 use App\Livewire\AddUser;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Livewire\UserLogin;
 Route::get('/',UserLogin::class)->name('login');
 Route::get('logout',[AdminController::class , 'destroy'])->name('logout');
+// admin routes
 route::middleware(['auth:users'])->group(function(){
     route::get('dashboard',[AdminController::class, 'index'])->name('dashboard');
     route::get('sale',[SaleController::class ,'index'])->name('salepage');
@@ -18,7 +20,6 @@ route::middleware(['auth:users'])->group(function(){
     route::put('sales/{id}',[SaleController::class , 'update'])->name('updatesale');
     route::get('salesinvoice',[SaleController::class , 'invoice'])->name('salesinvoice');
     Route::get('/sales/export', [SaleController::class, 'exportSalesExcel'])->name('sales.export');
-
     route::post('addsale',[SaleController::class , 'store'])->name('sale_submit');
     route::get('report',[ReportController::class ,'index'])->name('report');
     route::get('users',[UserController::class , 'index'])->name('users');
@@ -34,6 +35,12 @@ route::middleware(['auth:users'])->group(function(){
     route::post('assignuser',[BusnessController::class ,'assign'])->name('assignbussness_submit');
     route::post('addbusness', [BusnessController::class, 'store'])->name('busness_submit');
     route::post('edit',[BusnessController::class , 'edit'])->name('busness_update');
+    Route::get('/logs', [LogController::class, 'log'])->name('Activity_Logs');
+    Route::get('/user/updateProfile',[UpdateController::class ,'index'])->name('profileUpdate');
+    Route::post('/user/verifypassword',[UpdateController::class ,'verifyPassword'])->name('verifyPassword');
+    Route::fallback(function(){
+        return view('mazerpage.Errorpage.errorpage');
+    });
 });
 
 ////users route .....

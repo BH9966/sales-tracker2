@@ -72,20 +72,19 @@
                     </ul>
                 </li>
 
+                
                 <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-hexagon-fill"></i>
-                        <span>Audit Activity</span>
-                    </a>
-                    <ul class="submenu ">
-                        <li class="submenu-item ">
-                            <a href="form-element-input.html">Input</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="form-element-input-group.html">Input Group</a>
-                        </li>
-                    </ul>
-                </li>
+                  <a href="#" class='sidebar-link'>
+                      <i class="bi bi-hexagon-fill"></i>
+                      <span>Audit Activity</span>
+                  </a>
+                  <ul class="submenu ">
+                      <li class="submenu-item ">
+                          <a href="{{route('Activity_Logs')}}">ActivityLogs</a>
+                      </li>
+                      
+                  </ul>
+              </li>
 
 
               
@@ -100,7 +99,7 @@
                     </a>
                     <ul class="submenu ">
                         <li class="submenu-item ">
-                            <a href="auth-login.html">Profile</a>
+                            <a href="{{route('profileUpdate')}}">Profile</a>
                         </li>
                         <li class="submenu-item ">
                             <a href="{{route('logout')}}">Log out</a>
@@ -202,7 +201,9 @@
                             <option>Select role....</option>
                             <option value="admin">Admin</option>
                             <option value="super_admin">Super Admin</option>
-                            <option value="user">User</option>
+                            <option value="butcher_user">Butcher User</option>
+                            <option value="genge_user">Genge User</option>
+                            <option value="carwash_user">Car Wash User</option>
                           </select>
                         </div>
     

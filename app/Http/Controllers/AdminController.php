@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Models\Business;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
@@ -18,7 +19,11 @@ class AdminController extends Controller
         $sales=Sale::all();
         $busness=Business::all();
         $user=User::all();
-        return view('mazerpage.dashboard',compact('sales','busness','user'));
+        $salesByBusiness = Sale::with('business')
+        ->selectRaw('business_id, SUM(total_sales) as total')
+        ->groupBy('business_id')
+        ->get();
+        return view('mazerpage.dashboard',compact('sales','busness','user','salesByBusiness'));
     }
 
     /**

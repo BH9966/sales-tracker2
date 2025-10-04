@@ -20,7 +20,7 @@
     <div class="modal-dialog">
       <div class="modal-content rounded-3 shadow">
         <div class="modal-header">
-          <h5 class="modal-title">Add New Busness</h5>
+          <h5 class="modal-title">Assign User to Busness</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <section id="multiple-column-form">
@@ -259,20 +259,19 @@
                     </ul>
                 </li>
 
+                
                 <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i class="bi bi-hexagon-fill"></i>
-                        <span>Audit Activity</span>
-                    </a>
-                    <ul class="submenu ">
-                        <li class="submenu-item ">
-                            <a href="form-element-input.html">Input</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="form-element-input-group.html">Input Group</a>
-                        </li>
-                    </ul>
-                </li>
+                  <a href="#" class='sidebar-link'>
+                      <i class="bi bi-hexagon-fill"></i>
+                      <span>Audit Activity</span>
+                  </a>
+                  <ul class="submenu ">
+                      <li class="submenu-item ">
+                          <a href="{{route('Activity_Logs')}}">ActivityLogs</a>
+                      </li>
+                      
+                  </ul>
+              </li>
 
 
               
@@ -287,7 +286,7 @@
                     </a>
                     <ul class="submenu ">
                         <li class="submenu-item ">
-                            <a href="auth-login.html">Profile</a>
+                            <a href="{{route('profileUpdate')}}">Profile</a>
                         </li>
                         <li class="submenu-item ">
                             <a href="{{route('logout')}}">Log out</a>

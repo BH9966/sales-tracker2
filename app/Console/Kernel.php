@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('sales:notify-missing')->dailyAt('00:00'); // runs at 6 PM
+        // $schedule->command('sales:notify-missing')->dailyAt('07:31');
     }
 
     /**
@@ -21,8 +21,5 @@ class Kernel extends ConsoleKernel
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
-
-        // optional, loads console routes
-        // require base_path('routes/console.php');
     }
 }
