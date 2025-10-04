@@ -1,4 +1,4 @@
-*.log
+isan serve --port 5000# *.log
 .DS_Store
 .env
 .env.backup
@@ -21,4 +21,4 @@
 /vendor
 Homestead.json
 Homestead.yaml
-Thumbs.db
+# Thumbs.db
