@@ -3,7 +3,7 @@ name: Deploy to InfinityFree via FTP
 on:
   push:
     branches:
-      - main  
+      - TradeTracker
 
 jobs:
   deploy:
