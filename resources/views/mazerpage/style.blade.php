@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="{{asset('template/css/bootstrap.css')}}">
 
 <link rel="stylesheet" href="{{asset('template/vendors/iconly/bold.css')}}">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <link rel="stylesheet" href="{{asset('template/vendors/perfect-scrollbar/perfect-scrollbar.css')}}">
 <link rel="stylesheet" href="{{asset('template/vendors/bootstrap-icons/bootstrap-icons.css')}}">

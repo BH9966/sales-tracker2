@@ -6,6 +6,7 @@
     <meta name="author" content="Dreamguys - Bootstrap Admin Template">
     <meta name="robots" content="noindex, nofollow">
     <title>Login Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('login/img/favicon.jpg')}}">
     
