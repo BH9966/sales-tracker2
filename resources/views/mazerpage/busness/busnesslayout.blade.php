@@ -4,6 +4,7 @@
 <head>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @include('mazerpage.sales.style')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>

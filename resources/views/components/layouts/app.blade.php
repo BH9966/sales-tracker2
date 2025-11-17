@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
    @include('login.login2.style')
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
   </head>
   <body>
         

@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="{{asset('template/vendors/bootstrap-icons/bootstrap-icons.css')}}">
 <link rel="stylesheet" href="{{asset('template/css/app.css')}}">
 <link rel="shortcut icon" href="{{asset('template/images/favicon.svg')}}" type="image/x-icon">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
     .logo_sales{
